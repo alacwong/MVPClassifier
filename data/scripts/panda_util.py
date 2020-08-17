@@ -23,8 +23,8 @@ def get_mvp_df(url) -> pd.DataFrame:
     for i in range(0, len(player_stats), len(columns)):
         row = player_stats[i: i + len(columns)]
         mvp_candidate = {columns[j]: row[j] for j in range(len(row))}
-
-        mvp_candidates.append(mvp_candidate)
+        if mvp_candidate['Tm'] != 'TOT':
+            mvp_candidates.append(mvp_candidate)
     df = pd.DataFrame(mvp_candidates)
     del df['G'], df['Pts Won'], df['Pts Max'], df['First'], df['Age'], df['WS/48']
     return df
