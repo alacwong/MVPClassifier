@@ -3,16 +3,14 @@ from scripts.panda_util import get_df
 from scripts.numpy_util import generator_vector
 import time
 import numpy as np
+from typing import List
 
-def get_data():
-    # ( mvps-votings, team-wins)
-    urls = [
-        (
-            'https://www.basketball-reference.com/awards/awards_' + str(x) + '.html',
-            'https://www.basketball-reference.com/leagues/NBA_' + str(x) + '_standings.html'
-        )
-        for x in range(1980, 2020)  # include era of 3 point
-    ]
+
+def get_data(urls):
+    """
+    generate data
+    :return:
+    """
     data = []
     data_labels = []
 
