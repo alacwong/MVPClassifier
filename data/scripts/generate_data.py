@@ -22,8 +22,6 @@ def get_data(urls):
         data = data + training
         data_labels = data_labels + labels
 
-    data = np.array(data)
-    data_labels = np.array(data_labels)
     end = time.time()
     print('Loaded %d elements in %f s' % (len(data), end - start))
     return [data, data_labels]

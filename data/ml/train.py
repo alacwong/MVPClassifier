@@ -2,36 +2,39 @@
 import numpy as np
 from ml.perceptron import Perceptron
 from typing import List
-
+from scripts.numpy_util import binarize
 
 error_plot = []
+validate_plot = []
 
 
-def train(data: np.ndarray, labels: List, epochs=3, max_error=0.05):
+def train(train: List, train_labels: List, test, test_labels, epochs=3, max_error=0.05):
     """
     Train perceptron
-    :param data: training data
-    :param labels: labels for data
+    :param test_labels: test data
+    :param test: labels for testing
+    :param train: training data
+    :param train_labels: labels for data
     :param epochs: number of epochs
     :param max_error: convergence precisions
     :return: model trained with data
     """
-    model = Perceptron(len(data[0]))
+    model = Perceptron(len(train[0]))
     num_epochs = 0
     error = 1
     while num_epochs < epochs or error < max_error:
-        gradient_acc = np.array([0] * len(data[0]))
+        validate(model, test, test_labels)
+        gradient_acc = np.array([0] * len(train[0]))
         error_acc = 0
-        for i in range(len(data)):
-            actual = model.fire(data[i])
-            gradient = compute_gradient(model, labels[i])
+        for i in range(len(train)):
+            actual = model.fire(train[i])
+            gradient = compute_gradient(model, train_labels[i])
             gradient_acc = np.add(gradient_acc, gradient)
-            error_acc += compute_error(actual, labels[i])
-        total_gradient = np.divide(gradient_acc, -len(data))
-        # print(total_gradient)
+            error_acc += compute_error(actual, train_labels[i])
+        total_gradient = np.divide(gradient_acc, -len(train))
         model.update(total_gradient)
         num_epochs += 1
-        error = error_acc / len(data)
+        error = error_acc / len(train)
         error_plot.append(error)
     return model
 
@@ -61,3 +64,19 @@ def compute_error(output: float, actual: float):
     :return:
     """
     return np.square(actual - output)
+
+
+def validate(model, test, test_labels):
+    """
+    validate
+    :param model:
+    :param test:
+    :param test_labels:
+    :return:
+    """
+    correct = 0
+    for i in range(len(test)):
+        output = binarize(model.fire(test[i]))
+        if output == test_labels[i]:
+            correct += 1
+    validate_plot.append(correct / len(test))

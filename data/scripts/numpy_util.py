@@ -48,3 +48,47 @@ def generator_vector(df: pd.DataFrame) -> List:
         labels.append(normalize(shares[combination[0]], shares[combination[1]]))
         labels.append(normalize(shares[combination[1]], shares[combination[0]]))
     return [vectors, labels]
+
+
+def split_data(p: float, data: List, labels: List):
+    """
+    Split data into
+    :param labels: labels of dataset
+    :param data: total dataset
+    :param p: ratio of training to test
+    :return:
+    """
+    train = []
+    test = []
+    train_labels = []
+    test_labels = []
+    for i in range(len(data)):
+        x = np.random.uniform(0, 1)
+        if x <= p:
+            train.append(data[i])
+            train_labels.append(labels[i])
+        else:
+            test.append(data[i])
+            test_labels.append(labels[i])
+    return [train, binarize_labels(train_labels),
+            test, binarize_labels(test_labels)]
+
+
+def binarize_labels(labels):
+    """
+    set replace normalized mvp share to better player
+    :param labels:
+    :return:
+    """
+    new_labels = []
+    for i in range(len(labels)):
+        label = binarize(labels[i])
+        new_labels.append(label)
+    return new_labels
+
+
+def binarize(x):
+    if x >= 0.5:
+        return 1
+    else:
+        return 0
