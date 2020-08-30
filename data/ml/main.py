@@ -1,0 +1,29 @@
+# Module training with sklearn
+from scripts.generate_data import load_data
+from scripts.numpy_util import split_data, binarize
+from sklearn.neural_network import MLPRegressor
+
+import time
+
+dates = [
+    '../csv/' + str(x) + '.csv' for x in range(1980, 2020)
+]
+data, labels = load_data(dates)
+train, train_label, test, test_label = split_data(0.8, data, labels)
+
+regr = MLPRegressor(random_state=1, max_iter=500, verbose=True, hidden_layer_sizes=(1,), activation="logistic").fit(train, train_label)
+print(regr.coefs_)
+pred = regr.predict(test)
+total = 0
+correct = 0
+for i in range(len(pred)):
+    if binarize(pred[i]) == test_label[i]:
+        correct += 1
+    total += 1
+print("Accuracy: %f %d / %d" %(correct/total, correct, total))
+for x in regr.coefs_:
+    for y in x:
+        print(y[0])
+    print('******')
+
+
