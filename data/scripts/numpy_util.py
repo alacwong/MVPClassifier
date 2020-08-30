@@ -26,8 +26,6 @@ def normalize_vector(x: np.ndarray, y: np.ndarray) -> Tuple:
     v = []
     for i in range(len(x)):
         v.append(normalize(x[i], y[i]))
-    for i in range(len(y)):
-        v.append(normalize(y[i], x[i]))
     return np.array(v)
 
 
@@ -42,11 +40,13 @@ def generator_vector(df: pd.DataFrame) -> List:
     vectors = []
     labels = []
     npdf = df.to_numpy()
+
     for combination in list(itertools.combinations(range(len(npdf)), 2)):
-        vectors.append(normalize_vector(npdf[combination[0]], npdf[combination[1]]))
-        vectors.append(normalize_vector(npdf[combination[1]], npdf[combination[0]]))
+        vectors.append(normalize_vector(npdf[combination[0]][1:], npdf[combination[1]][1:]))
+        vectors.append(normalize_vector(npdf[combination[1]][1:], npdf[combination[0]][1:]))
         labels.append(normalize(shares[combination[0]], shares[combination[1]]))
         labels.append(normalize(shares[combination[1]], shares[combination[0]]))
+
     return [vectors, labels]
 
 
@@ -70,8 +70,8 @@ def split_data(p: float, data: List, labels: List):
         else:
             test.append(data[i])
             test_labels.append(labels[i])
-    return [train, binarize_labels(train_labels),
-            test, binarize_labels(test_labels)]
+    return [np.array(train), np.array(binarize_labels(train_labels)),
+            np.array(test), np.array(binarize_labels(test_labels))]
 
 
 def binarize_labels(labels):
