@@ -32,3 +32,10 @@ def normalize(x, y):
 # new data sample
 sample1 = [ normalize(player1stat1, player2stat1) , ... , normalize(player1statn, player2statn)]
 ```
+#### Before normalization
+
+<img src="./assets/old_scikit.png"/>
+
+#### After normalization
+
+<img src="./assets/sci_kit_accuracy.png"/>

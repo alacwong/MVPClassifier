@@ -16,7 +16,7 @@ def normalize(x: float, y: float) -> List:
     return x / (x + y)
 
 
-def normalize_vector(x: np.ndarray, y: np.ndarray) -> Tuple:
+def normalize_vector(x: np.ndarray, y: np.ndarray) -> np.ndarray:
     """
     normalize vector to have range between 0 and 1
     :param x:
@@ -27,6 +27,15 @@ def normalize_vector(x: np.ndarray, y: np.ndarray) -> Tuple:
     for i in range(len(x)):
         v.append(normalize(x[i], y[i]))
     return np.array(v)
+
+
+# def normalize_vector(x, y):
+#     v = []
+#     for i in range(len(x)):
+#         v.append(normalize(x[i], y[i]))
+#     for i in range(len(y)):
+#         v.append(normalize(x[i], y[i]))
+#     return np.array(v)
 
 
 def generator_vector(df: pd.DataFrame) -> List:
@@ -70,7 +79,7 @@ def split_data(p: float, data: List, labels: List):
         else:
             test.append(data[i])
             test_labels.append(labels[i])
-    return [np.array(train), np.array(binarize_labels(train_labels)),
+    return [np.array(train), np.array(train_labels),
             np.array(test), np.array(binarize_labels(test_labels))]
 
 

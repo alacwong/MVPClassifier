@@ -6,9 +6,10 @@ from scripts.numpy_util import binarize
 
 error_plot = []
 validate_plot = []
+num_epochs = 0
 
 
-def train(train: List, train_labels: List, test, test_labels, epochs=3, max_error=0.05):
+def train(train: List, train_labels: List, test, test_labels, epochs=300, max_error=0.05):
     """
     Train perceptron
     :param test_labels: test data
@@ -20,9 +21,10 @@ def train(train: List, train_labels: List, test, test_labels, epochs=3, max_erro
     :return: model trained with data
     """
     model = Perceptron(len(train[0]))
-    num_epochs = 0
     error = 1
-    while num_epochs < epochs or error < max_error:
+    prev_error = 2
+    global num_epochs
+    while num_epochs < epochs and prev_error - error > 0.000001:
         validate(model, test, test_labels)
         gradient_acc = np.array([0] * len(train[0]))
         error_acc = 0
@@ -34,8 +36,10 @@ def train(train: List, train_labels: List, test, test_labels, epochs=3, max_erro
         total_gradient = np.divide(gradient_acc, -len(train))
         model.update(total_gradient)
         num_epochs += 1
+        prev_error = error
         error = error_acc / len(train)
         error_plot.append(error)
+        print(prev_error, error)
     return model
 
 
