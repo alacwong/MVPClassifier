@@ -39,3 +39,9 @@ sample1 = [ normalize(player1stat1, player2stat1) , ... , normalize(player1statn
 #### After normalization
 
 <img src="./assets/sci_kit_accuracy.png"/>
+
+Now after fixing the data to achieve competent results on the sci-kit model. I decided to test it on my model which
+was a Single perceptron trained with my own implementation of the gradient descent algorithm. These were the results.
+
+<img src="./assets/validation4.png"/>
+<img src="./assets/validation5.png"/>
