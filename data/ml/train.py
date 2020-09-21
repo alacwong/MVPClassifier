@@ -3,6 +3,7 @@ import numpy as np
 from ml.perceptron import Perceptron
 from typing import List
 from scripts.numpy_util import binarize
+from random import randint
 
 
 def compute_error(output: float, actual: float):
@@ -15,56 +16,43 @@ def compute_error(output: float, actual: float):
     return np.square(actual - output)
 
 
-class Trainer():
-    error_plot = []
-    validate_plot = []
-    num_epochs = 0
+class Trainer:
 
-    def train(self, epochs=300, max_error=0.05):
+    def train_model(self, epochs=300, max_error=0.05):
         """
         Train perceptron
         :param epochs: number of epochs
         :param max_error: convergence precisions
         :return: model trained with data
         """
-        model = Perceptron(len(self.train[0]))
-        error = 1
-        prev_error = 2
-        while self.num_epochs < epochs and prev_error - error > 0.0001:
-            self.validate(model, self.test, self.test_labels)
-            gradient_acc = np.array([0] * len(self.train[0]))
-            error_acc = 0
-            for i in range(len(self.train)):
-                actual = model.fire(self.train[i])
-                gradient = self.compute_gradient(model, self.train_labels[i])
-                gradient_acc = np.add(gradient_acc, gradient)
-                error_acc += compute_error(actual, self.train_labels[i])
-            total_gradient = np.divide(gradient_acc, -len(self.train))
-            model.update(total_gradient)
-            self.num_epochs += 1
+        error, prev_error = [1, 2]
+        while self.num_epochs < epochs and prev_error - error > max_error:
+            self.validate()
             prev_error = error
-            error = error_acc / len(self.train)
+            gradient, error = self.get_mean_gradient()
+            self.model.update(gradient)
             self.error_plot.append(error)
+            self.num_epochs += 1
             print(prev_error, error)
-        return model
 
-    def get_total_gradient(self):
+    def get_mean_gradient(self):
         """
         compute average gradient
         :training training data
         :return:
         """
-        # for i in range(len(train)):
-        #     actual = model.fire(train[i])
-        #     gradient = compute_gradient(model, train_labels[i])
-        #     gradient_acc = np.add(gradient_acc, gradient)
-        #     error_acc += compute_error(actual, train_labels[i])
-        # total_gradient = np.divide(gradient_acc, -len(train))
+        gradient_acc = np.array([0] * len(self.train[0]))
+        error_acc = 0
+        for i in range(len(self.train)):
+            actual = self.model.fire(self.train[i])
+            gradient = self.compute_gradient(self.train_labels[i])
+            gradient_acc = np.add(gradient_acc, gradient)
+            error_acc += compute_error(actual, self.train_labels[i])
+        return [np.divide(gradient_acc, -len(self.train)), error_acc / len(self.train)]
 
     def get_batch_gradient(self, n):
         """
-        Generatye batch graident vector from batch size n
-        :param training: trainig data
+        Generate batch gradient vector from batch size n
         :param n: size of batch
         :return:
         """
@@ -72,21 +60,23 @@ class Trainer():
     def get_stochastic_gradient(self):
         """
         Generate stochastic gradient
-        :param training: training data
         :return:
         """
+        index = randint(0, len(self.train))
+        actual = self.model.fire(self.train[index])
+        gradient = self.compute_gradient(self.train_labels[index])
+        return gradient, compute_error(actual, self.train_labels[index])
 
     def compute_gradient(self, output: float):
         """
         compute error gradient for training example
-        :param model:
         :param output:
         :return:
         """
         error = []
         for i in range(len(self.model.weights)):
             dc = 2 * (self.model.output - output)
-            sigmoid = 1 / (1 + np.exp(-self.sum))
+            sigmoid = 1 / (1 + np.exp(-self.model.sum))
             dz = sigmoid * (1 - sigmoid)
             dw = self.model.input[i]
             error.append(dc * dz * dw)
@@ -112,3 +102,4 @@ class Trainer():
         self.train_labels = train_labels
         self.test = test
         self.test_labels = test_labels
+        self.model = Perceptron(len(self.train[0]))
