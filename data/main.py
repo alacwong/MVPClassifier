@@ -1,10 +1,9 @@
 # main file, run analytics on neural network]
 from scripts.generate_data import load_data
 from scripts.numpy_util import split_data, binarize
-import ml.train as ml
+from ml.train import Trainer
 import time
-import matplotlib.pyplot as plt
-
+from utils.plot_util import plot_error, plot_validate
 
 
 
@@ -18,17 +17,12 @@ data, labels = data
 train, train_label, test, test_label = split_data(0.8, data, labels)
 
 start = time.time()
-model = ml.train(train, labels, test, test_label, epochs=300)
-end = time.time()
-print('Trained on %d iterations' % ml.num_epochs)
-print('Final error %f' % (ml.error_plot[-1]))
-plot_error()
-plot_validate()
+model = Trainer(train, train_label, test, test_label)
 
-accuracy = 0
-for i in range(len(test)):
-    output = model.fire(test[i])
-    if test_label[i] == binarize(output):
-        accuracy += 1
-print('Total Accuracy: %f' % (accuracy / len(test)))
-print(model.weights)
+model.train_model(max_error=0.00001, epochs=300)
+plot_error(model.error_plot)
+plot_validate(model.validate_plot)
+
+end = time.time()
+
+
