@@ -5,9 +5,6 @@ from ml.train import Trainer
 import time
 from utils.plot_util import plot_error, plot_validate
 
-
-
-
 files = [
     'csv/' + str(x) + '.csv' for x in range(1980, 2020)
 ]
@@ -24,5 +21,3 @@ plot_error(model.error_plot)
 plot_validate(model.validate_plot)
 
 end = time.time()
-
-
