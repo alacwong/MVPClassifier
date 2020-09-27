@@ -1,6 +1,6 @@
 # script to scrape mvp data
 from scripts.panda_util import get_df, get_season_df
-from scripts.numpy_util import generator_vector
+from scripts.numpy_util import generator_vector, assign_vector
 import time
 import pandas as pd
 
@@ -53,6 +53,13 @@ def load_data(files):
         data = data + training
         data_labels = data_labels + labels
     return [data, data_labels]
+
+
+def load_raw(files):
+    seasons = {}
+    for file in files:
+        seasons[file] = assign_vector(pd.read_csv(file))
+    return seasons
 
 
 if __name__ == "__main__":

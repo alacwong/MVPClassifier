@@ -59,6 +59,18 @@ def generator_vector(df: pd.DataFrame) -> List:
     return [vectors, labels]
 
 
+def assign_vector(df: pd.DataFrame):
+    vector_keys = []
+    vector_dict = {}
+    for i in range(len(df['Player'])):
+        vector_keys.append((i, df['Player'][i]))
+    del df['Player']
+    npdf = df.to_numpy()
+    for i in range(len(npdf)):
+        vector_dict[vector_keys[i]] = npdf[i]
+    return vector_dict
+
+
 def split_data(p: float, data: List, labels: List):
     """
     Split data into
