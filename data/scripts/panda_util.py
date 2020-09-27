@@ -91,3 +91,67 @@ def get_df(urls: Tuple) -> pd.DataFrame:
     df = add_team_df(wins, df)
     df = to_numeric(df)
     return df
+
+
+def get_regular_df(url):
+    response = get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    header_str = "Player	Pos	Age	Tm	G	GS	MP	FG	FGA	FG%	3P	3PA	3P%	2P	2PA	2P%\teFG%\tFT	FTA	FT%	ORB	DRB	TRB	" \
+                 "AST	STL	BLK	TOV	PF	PTS "
+
+    # table headers for each stat
+    headers = [header.strip() for header in header_str.split('\t')]
+
+    table = soup.find_all('td')
+    table_data = [t for t in table]  # convert table matrix to list
+
+    players = []
+
+    for i in range(0, len(table_data), len(headers)):
+        row = table_data[i: i + len(headers)]
+        player = {headers[i]: row[i].text for i in range(len(headers))}
+        try:
+            tm = row[3].a['href']
+            player['Tm'] = tm
+            players.append(player)
+        except TypeError:
+            continue
+
+    return pd.DataFrame(players)
+
+
+def get_win_share(url, df: pd.DataFrame) -> pd.DataFrame:
+    """Get win share of year"""
+    response = get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    tables = soup.find_all('table')
+    table_data = list(tables)
+    headers = table_data[0].find_all('th', attrs={'scope': 'col'})
+    headers = [h.text for h in headers]
+    headers.remove('Rk')
+    stats = soup.find_all('td')
+    table_stats = [stat.text for stat in stats]
+    players = []
+    for i in range(0, len(table_stats), len(headers)):
+        s = table_stats[i: i + len(headers)]
+        players.append({headers[i]: s[i] for i in range(len(s))})
+    df['WS'] = pd.DataFrame(players)[['WS']]
+    return df
+
+
+def clean_regular_df(df: pd.DataFrame):
+    cleaned_headers = ['Player', 'Tm', 'MP', 'PTS', 'TRB', 'AST', 'STL', 'BLK', 'FG%', '3P%', 'FT%', 'WS']
+    for col in df:
+        if col not in cleaned_headers:
+            del df[col]
+    df = df[cleaned_headers]
+    return to_numeric(df)
+
+
+def get_season_df(urls: Tuple):
+    per_game, team_wins, advanced = urls
+    regular_season = get_regular_df(per_game)
+    df = add_team_df(team_wins, regular_season)
+    df = get_win_share(advanced, df)
+    return clean_regular_df(df)
