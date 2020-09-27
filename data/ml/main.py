@@ -4,6 +4,7 @@ from scripts.numpy_util import split_data, binarize
 from sklearn.neural_network import MLPRegressor
 from utils.validation_util import validate_accuracy
 from utils.plot_util import plot_validate, plot_error
+from joblib import dump
 
 import time
 
@@ -49,3 +50,5 @@ for x in regr.coefs_:
     for y in x:
         print(y[0])
     print('******')
+
+dump(regr, 'scikit-perceptron.joblib')
