@@ -47,12 +47,14 @@ def get_season_data():
 def load_data(files):
     data = []
     data_labels = []
+    all_players = []
     for file in files:
         df = pd.read_csv(file)
-        training, labels = generator_vector(df)
+        training, labels, players = generator_vector(df)
         data = data + training
         data_labels = data_labels + labels
-    return [data, data_labels]
+        all_players = all_players + players
+    return [data, data_labels, all_players]
 
 
 def load_raw(files):

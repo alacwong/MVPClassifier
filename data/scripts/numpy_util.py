@@ -45,18 +45,22 @@ def generator_vector(df: pd.DataFrame) -> List:
     :return: List of training data
     """
     shares = df['Share']
+    players = df['Player']
+    player_vs = []
     del df['Share'], df['Player']
     vectors = []
     labels = []
     npdf = df.to_numpy()
 
     for combination in list(itertools.combinations(range(len(npdf)), 2)):
+        player_vs.append((players[combination[0]], players[combination[1]]))
+        player_vs.append((players[combination[1]], players[combination[0]]))
         vectors.append(normalize_vector(npdf[combination[0]][1:], npdf[combination[1]][1:]))
         vectors.append(normalize_vector(npdf[combination[1]][1:], npdf[combination[0]][1:]))
         labels.append(normalize(shares[combination[0]], shares[combination[1]]))
         labels.append(normalize(shares[combination[1]], shares[combination[0]]))
 
-    return [vectors, labels]
+    return [vectors, labels, player_vs]
 
 
 def assign_vector(df: pd.DataFrame):
