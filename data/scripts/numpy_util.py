@@ -37,7 +37,6 @@ def normalize_vector(x: np.ndarray, y: np.ndarray) -> np.ndarray:
 #         v.append(normalize(x[i], y[i]))
 #     return np.array(v)
 
-
 def generator_vector(df: pd.DataFrame) -> List:
     """
     Dataset
@@ -117,3 +116,12 @@ def binarize(x):
         return 1
     else:
         return 0
+
+def clean_data(df: pd.DataFrame):
+    """
+    Clean data to return a list of players and a list of their stats
+    :param df:
+    :return:
+    """
+
+    players = df['Player']

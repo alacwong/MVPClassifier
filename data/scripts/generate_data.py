@@ -138,9 +138,13 @@ def scrape_players():
         player['Tm'] = tm_pct[player['Tm']]
 
     df = clean_regular_df(pd.DataFrame(all_players))
-    print(df)
+    players = list(df['Player'])
+    del df['Player']
+    df = df.to_numpy()
+    statistics = list(df)
 
     print(f'Loaded {len(all_players)} player statistics.')
+    return players, statistics
 
 
 if __name__ == "__main__":
