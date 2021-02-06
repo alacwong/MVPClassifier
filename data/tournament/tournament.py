@@ -20,6 +20,7 @@ class Tournament:
 
         # iterate through all players
         q = deque([i for i in range(len(self.statistics))])
+        mvp = 0
 
         while q:
             advance = deque([])
@@ -27,7 +28,7 @@ class Tournament:
                 i = q.popleft()
                 j = q.popleft()
                 stat = normalize_vector(self.statistics[i], self.statistics[j])
-                pred = self.model.predict(stat)[0]
+                pred = self.model.evaluate(stat)
                 if pred > 0.5:
                     advance.append(i)
                 else:
