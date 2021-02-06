@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from requests import get
 import json
 from utils.bs4_utils import get_filter
+from scripts.panda_util import clean_regular_df
 
 
 def get_data():
@@ -136,10 +137,13 @@ def scrape_players():
     for player in all_players:
         player['Tm'] = tm_pct[player['Tm']]
 
-    print(all_players)
+    df = clean_regular_df(pd.DataFrame(all_players))
+    print(df)
+
     print(f'Loaded {len(all_players)} player statistics.')
 
 
 if __name__ == "__main__":
     # get_data()
-    get_season_data()
+    # get_season_data()
+    scrape_players()
