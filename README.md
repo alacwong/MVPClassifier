@@ -51,7 +51,7 @@ and our model evaluates which player is more likely to be MVP.
 
 Here are the results
 
-| Season                 | Player        | MVP Winner            |
+| Season                 | Prediction    | MVP Winner            |
 |:----------------------:|:-------------:| :--------------------:|
 | 2020-2021 (Unfinished) | Nikola Jokić  | Not determined        |
 | 2019-2020              | James Harden  | Giannis Antetokounmpo |
