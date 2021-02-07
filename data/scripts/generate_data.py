@@ -69,16 +69,16 @@ def load_raw(files):
     return seasons
 
 
-def scrape_players():
+def scrape_players(year=2021):
     """
     Scrape players
     :return:
     """
 
     # In prod use config file to load year
-    link = 'https://www.basketball-reference.com/leagues/NBA_2021_totals.html'
-    advanced = 'https://www.basketball-reference.com/leagues/NBA_2021_advanced.html'
-    team_summary = 'https://www.basketball-reference.com/leagues/NBA_2021.html'
+    link = f'https://www.basketball-reference.com/leagues/NBA_{year}_totals.html'
+    advanced = f'https://www.basketball-reference.com/leagues/NBA_{year}_advanced.html'
+    team_summary = f'https://www.basketball-reference.com/leagues/NBA_{year}.html'
 
     response = get(link)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -143,7 +143,7 @@ def scrape_players():
     df = df.to_numpy()
     statistics = list(df)
 
-    print(f'Loaded {len(all_players)} player statistics.')
+    print(f'Loaded {len(all_players)} player statistics from NBA year {year}')
     return players, statistics
 
 

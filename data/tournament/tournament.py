@@ -44,10 +44,8 @@ class Tournament:
                     q = advance
                     advance = deque([])
                 else:
-                    print('root')
                     root = advance.popleft()
 
-        print(len(advance))
         print(f'Mvp is {self.player[root.val]}')
         return root
 

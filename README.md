@@ -45,3 +45,26 @@ was a Single perceptron trained with my own implementation of the gradient desce
 
 <img src="./assets/validation4.png"/>
 <img src="./assets/validation5.png"/>
+
+After training the model, we simulate of tournament between players
+and our model evaluates which player is more likely to be MVP. 
+
+Here are the results
+
+| Season                 | Player        | MVP Winner            |
+|:----------------------:|:-------------:| :--------------------:|
+| 2020-2021 (Unfinished) | Nikola Jokić  | Not determined        |
+| 2019-2020              | James Harden  | Giannis Antetokounmpo |
+| 2018-2019              | James Harden  | Giannis Antetokounmpo |
+| 2017-2018              | Lebron James  | James Harden          |
+| 2015-2016              | Stephen Curry | Stephen Curry         |
+| 2014-2015              | James Harden  | Stephen Curry         |
+
+Interesting enough, this model seems to prefer James Harden alot, and suggest
+it favors box-score statistics over games. This is understandable since most of parameters
+are related to personal statistics rather than team wins. Interestingly enough
+the year James Harden won the MVP, my model predicted LeBron James instead. Although
+this model did not predict the MVP as accurately as I would have hoped,
+the players is suggested are definitely mvp debatable, for example James
+Harden was a perennial top MVP candidate for his box score stats, and this model
+clearly reflected that.

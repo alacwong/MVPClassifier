@@ -50,7 +50,5 @@ root = t.simulate()
 end_tournament = time.time()
 print(f'Simulate tournament in {end_tournament - finish_load}s')
 deepcopy(root)
-print(f'Copy tournament in {time.time() - end_tournament}')
-
 
 

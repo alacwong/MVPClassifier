@@ -35,8 +35,10 @@ dates = [
 data, labels = load_data(dates)
 train, train_label, test, test_label = split_data(0.8, data, labels)
 
+# perceptron regressor, what if we try different models?
 regr = MLPRegressor(random_state=1, max_iter=500, verbose=True, hidden_layer_sizes=(1,), activation="logistic").fit(
     train, train_label)
+
 print(regr.coefs_)
 pred = regr.predict(test)
 total = 0
