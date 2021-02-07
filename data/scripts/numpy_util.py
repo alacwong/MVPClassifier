@@ -4,7 +4,7 @@ from typing import List, Tuple
 import itertools
 
 
-def normalize(x: float, y: float) -> List:
+def normalize(x: float, y: float) -> float:
     """
     normalize values between 0 and 1
     :param x: value 1
@@ -13,6 +13,8 @@ def normalize(x: float, y: float) -> List:
     """
     if x == y:
         return 0.5
+    if x + y == 0:
+        return 0
     return x / (x + y)
 
 
