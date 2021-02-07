@@ -5,6 +5,7 @@ from sklearn.neural_network import MLPRegressor
 from utils.validation_util import validate_accuracy
 from utils.plot_util import plot_validate, plot_error
 from joblib import dump
+from sklearn.linear_model import LogisticRegression
 
 import time
 
@@ -32,11 +33,14 @@ def plot_accuracy():
 dates = [
     '../csv/' + str(x) + '.csv' for x in range(1980, 2020)
 ]
-data, labels = load_data(dates)
+data, labels, players = load_data(dates)
 train, train_label, test, test_label = split_data(0.8, data, labels)
 
 # perceptron regressor, what if we try different models?
-regr = MLPRegressor(random_state=1, max_iter=500, verbose=True, hidden_layer_sizes=(1,), activation="logistic").fit(
+# regr = MLPRegressor(random_state=1, max_iter=500, verbose=True, hidden_layer_sizes=(1,), activation="logistic").fit(
+#     train, train_label)
+
+regr = MLPRegressor(random_state=1, max_iter=500, verbose=True, hidden_layer_sizes=(2,), activation="logistic").fit(
     train, train_label)
 
 print(regr.coefs_)
@@ -53,4 +57,4 @@ for x in regr.coefs_:
         print(y[0])
     print('******')
 
-dump(regr, 'scikit-perceptron.joblib')
+dump(regr, '2_layer_nn.joblib')

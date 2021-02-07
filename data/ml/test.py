@@ -5,7 +5,7 @@ from tournament.tournament import Tournament
 from scripts.generate_data import scrape_players
 from tournament.model import SciKitModel
 import time
-from copy import deepcopy
+import random
 
 start = time.time()
 
@@ -42,13 +42,16 @@ model = load('scikit-perceptron.joblib')
 #     total += 1
 # print("Accuracy: %f %d / %d" % (correct / total, correct, total))
 
-players, stats = scrape_players()
+players, stats = scrape_players(2020)
 finish_load = time.time()
-print(f'Load players in {time.time() - start}s')
+print(f'Load players in {time.time() - start} s')
 t = Tournament(players, stats, SciKitModel(engine=model))
-root = t.simulate()
-end_tournament = time.time()
-print(f'Simulate tournament in {end_tournament - finish_load}s')
-deepcopy(root)
 
-
+for i in range(10):
+    start = time.time()
+    seed = random.randint(1, 256)
+    t.shuffle(seed)
+    print(f'Seed {seed}')
+    root = t.simulate()
+    end = time.time()
+    print(f'Simulate tournament in {end - start} s')

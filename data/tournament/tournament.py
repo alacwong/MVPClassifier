@@ -1,10 +1,10 @@
 # use tournament algorithm to find mvp given an list of player stats from an nba regular season
 from .model import Model
-import numpy as np
 from collections import deque
 from scripts.numpy_util import normalize_vector
 from .node import Node
 from copy import deepcopy
+import random
 
 
 class Tournament:
@@ -13,6 +13,14 @@ class Tournament:
         self.player = players
         self.statistics = statistics
         self.model = model
+
+    def shuffle(self, seed):
+        """
+        Shuffle array
+        :return:
+        """
+        random.Random(seed).shuffle(self.player)
+        random.Random(seed).shuffle(self.statistics)
 
     def simulate(self):
         """
@@ -60,3 +68,4 @@ class Tournament:
 
         # get copy of tournament to mutate
         root_copy = deepcopy(root)
+        current = root_copy.base
