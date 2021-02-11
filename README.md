@@ -57,6 +57,7 @@ Here are the results
 | 2019-2020              | James Harden  | Giannis Antetokounmpo |
 | 2018-2019              | James Harden  | Giannis Antetokounmpo |
 | 2017-2018              | Lebron James  | James Harden          |
+| 2016-2017              | James Harden  | Russel WestBrook      |
 | 2015-2016              | Stephen Curry | Stephen Curry         |
 | 2014-2015              | James Harden  | Stephen Curry         |
 
