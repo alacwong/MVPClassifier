@@ -42,16 +42,19 @@ model = load('scikit-perceptron.joblib')
 #     total += 1
 # print("Accuracy: %f %d / %d" % (correct / total, correct, total))
 
-players, stats = scrape_players(2020)
+players, stats = scrape_players(2021)
 finish_load = time.time()
 print(f'Load players in {time.time() - start} s')
 t = Tournament(players, stats, SciKitModel(engine=model))
+root = t.simulate()
+print(t.player[root.left.val], t.player[root.right.val])
+print(t.pop(root, 10))
 
-for i in range(10):
-    start = time.time()
-    seed = random.randint(1, 256)
-    t.shuffle(seed)
-    print(f'Seed {seed}')
-    root = t.simulate()
-    end = time.time()
-    print(f'Simulate tournament in {end - start} s')
+
+# start = time.time()
+#     # seed = random.randint(1, 256)
+#     # t.shuffle(seed)
+#     # print(f'Seed {seed}')
+# root = t.simulate()
+# end = time.time()
+# print(f'Simulate tournament in {end - start} s')

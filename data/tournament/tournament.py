@@ -37,9 +37,7 @@ class Tournament:
                 if len(q) > 1:
                     left = q.popleft()
                     right = q.popleft()
-                    stat = normalize_vector(self.statistics[left.val], self.statistics[right.val])
-                    stat = stat.reshape(1, len(stat))
-                    pred = self.model.evaluate(stat)
+                    pred = self.model.evaluate(self.statistics[left.val], self.statistics[right.val])
                     if pred > 0.5:
                         advance.append(Node(left.val, left, right, pred))
                     else:
@@ -57,6 +55,19 @@ class Tournament:
         print(f'Mvp is {self.player[root.val]}')
         return root
 
+    def display_shallow(self, node):
+        if node.left:
+            left = f'Left: {self.player[node.left.val]}'
+        else:
+            left = ''
+
+        if node.right:
+            right = f'Right {self.player[node.right.val]}'
+        else:
+            right = ''
+
+        return f'Node: {self.player[node.val]} {left} {right}'
+
     def pop(self, root: Node, k):
         """
         Pop k best players from binary tournament
@@ -64,8 +75,70 @@ class Tournament:
         :param k: number of players
         :return:
         """
-        pass
 
         # get copy of tournament to mutate
         root_copy = deepcopy(root)
-        current = root_copy.base
+
+        # list of k best players
+        mvps = [root.val]
+
+        while k - 1:
+
+            # remove
+            current = root_copy.base
+            parent = current.parent
+            if current.val == parent.left.val:
+                parent.left = None
+            else:
+                parent.right = None
+
+            current = parent
+
+            while current:
+                # No Children
+                if current.left is None and current.right is None:
+                    parent = current.parent
+                    if parent.left.val == current.val:
+                        parent.left = None
+                        parent.base = parent.right
+                    else:
+                        parent.right = None
+                        parent.base = parent.left
+
+                # Left child only
+                elif current.left is None:
+                    current.val = current.right.val
+                    current.base = current.right.base
+
+                # Right child only
+                elif current.right is None:
+                    current.val = current.left.val
+                    current.base = current.left.base
+
+                # Both children are available
+                else:
+                    pred = self.model.evaluate(self.statistics[current.left.val], self.statistics[current.right.val])
+                    if pred > 0.5:
+                        current.val = current.left.val
+                        current.base = current.left.base
+                    else:
+                        current.val = current.right.val
+                        current.base = current.right.base
+
+                    if current.parent is None:
+                        mvps.append(current.val)
+                        root_copy = current
+
+                current = current.parent
+
+            k -= 1
+
+        return [self.player[mvp] for mvp in mvps]
+
+    def display_tournament(self, root):
+        """
+        Display players
+        USe bfs algorithm
+        :return:
+        """
+        pass

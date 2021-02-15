@@ -41,13 +41,6 @@ class Node:
         else:
             self.base = self
 
-    def display_tree(self):
-        """
-        Display tree
-        :return:
-        """
-        pass
-
     def get_height(self):
         """
         Get height of tree in O(logN)
