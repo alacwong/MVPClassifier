@@ -114,7 +114,7 @@ def scrape_players(year=2021):
     # get team statistics
     response = get(team_summary)
     soup = BeautifulSoup(response.text, 'html.parser')
-    with open('MVPClassifier/assets/teams.json') as f:
+    with open('assets/teams.json') as f:
         tm_team = json.load(f)
     team_tm = {tm_team[tm]: tm for tm in tm_team}
 
