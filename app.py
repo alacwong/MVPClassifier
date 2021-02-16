@@ -1,13 +1,23 @@
 from flask import Flask
-from server import tournament, tournament_root
-
+from flask import request
+from caching import r
+from classifier import load_tournament
+import pickle
 
 app = Flask(__name__)
+load_tournament()
+
 
 @app.route('/')
 def get_mvp():
-
-    mvps = [str(mvp) for mvp in tournament.pop(tournament_root, 5)]
+    tournament = pickle.loads(r.get('tournament'))
+    root = pickle.loads(r.get('root'))
+    k = request.args.get('k')
+    if not k:
+        k = 1
+    else:
+        k = int(request.args.get('k'))
+    mvps = [str(mvp) for mvp in tournament.pop(root, k)]
     return {
         'mvps': mvps
     }

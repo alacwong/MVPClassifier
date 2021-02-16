@@ -1,9 +1,18 @@
 from data.scripts.generate_data import scrape_players
 from data.tournament.tournament import Tournament
 from joblib import load
+from caching import r
+import pickle
 
 from tournament.model import SciKitModel
-model = load('data/ml/scikit-perceptron.joblib')
-players, stats = scrape_players(2021)
-tournament = Tournament(players, stats, SciKitModel(engine=model))
-root = tournament.simulate()
+
+
+def load_tournament():
+    model = load('data/ml/scikit-perceptron.joblib')
+    players, stats = scrape_players(2021)
+    t = Tournament(players, stats, SciKitModel(engine=model))
+    r.set('tournament', pickle.dumps(t))
+    r.set('root', pickle.dumps(t.simulate()))
+
+
+load_tournament()
