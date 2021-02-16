@@ -1,7 +1,6 @@
 # use tournament algorithm to find mvp given an list of player stats from an nba regular season
 from .model import Model
 from collections import deque
-from scripts.numpy_util import normalize_vector
 from .node import Node
 from copy import deepcopy
 import random

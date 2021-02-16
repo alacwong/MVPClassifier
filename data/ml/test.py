@@ -48,8 +48,10 @@ print(f'Load players in {time.time() - start} s')
 t = Tournament(players, stats, SciKitModel(engine=model))
 root = t.simulate()
 print(t.player[root.left.val], t.player[root.right.val])
-print(t.pop(root, 10))
-
+start = time.time()
+print(t.pop(root, 5))
+end = time.time()
+print(f'Calculated in {end - start} s')
 
 # start = time.time()
 #     # seed = random.randint(1, 256)
