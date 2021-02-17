@@ -22,7 +22,7 @@ def get_mvp():
     mvps = [str(mvp) for mvp in tournament.pop(root, k)]
     return {
         'mvps': mvps,
-        'last_updated': r.get('time')
+        'last_updated': r.get('time').decode('utf-8')
     }
 
 
