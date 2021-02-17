@@ -3,6 +3,7 @@ from data.tournament.tournament import Tournament
 from joblib import load
 from caching import r
 import pickle
+import time
 
 from tournament.model import SciKitModel
 
@@ -13,6 +14,4 @@ def load_tournament():
     t = Tournament(players, stats, SciKitModel(engine=model))
     r.set('tournament', pickle.dumps(t))
     r.set('root', pickle.dumps(t.simulate()))
-
-
-load_tournament()
+    r.set('time', str(time.time()))

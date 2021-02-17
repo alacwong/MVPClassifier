@@ -3,9 +3,11 @@ from flask import request
 from caching import r
 from classifier import load_tournament
 import pickle
+from scheduler import start_schedule
 
 app = Flask(__name__)
 load_tournament()
+start_schedule()
 
 
 @app.route('/')
@@ -19,7 +21,8 @@ def get_mvp():
         k = int(request.args.get('k'))
     mvps = [str(mvp) for mvp in tournament.pop(root, k)]
     return {
-        'mvps': mvps
+        'mvps': mvps,
+        'last_updated': r.get('time')
     }
 
 
