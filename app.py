@@ -4,8 +4,10 @@ from caching import r
 from classifier import load_tournament
 import pickle
 from scheduler import start_schedule
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 load_tournament()
 start_schedule()
 
