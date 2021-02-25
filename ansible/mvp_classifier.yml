@@ -1,0 +1,5 @@
+---
+- hosts: 3.97.148.243
+  roles:
+    - common
+    - docker

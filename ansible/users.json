@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "username": "choyiny",
+      "groups": ["ansible", "wheel"],
+      "ssh_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDR5BFX0/4iWVKPXgsVom27P4CHo0zFA2jGi063ORAd0jfEq1jVE3Q5BCakyD5Cy6uY6FzOzF8hMlXRIxl4SmwMqF3980KiL0DHm7NXPo7jyxxGa6ZfBffWuSLxSFRYPCAEpbBmMFSoM8xDk6nsyqyin4xNE2E7lnN2GnCb+/yRbbQjkZ6dB7/7CjcDSbYDQ98txEMKbk1rttqMcFcppJ6H6qKW7oSmB5nhBtSE1Ne/phAMmsnSQVuChqZ+nCtiGhcfEAOqQBLLqLyvocxWp/ByH7GJWHU+AzCpgrOZTzMYXzf9GfuLD16qwWdrqB1fzmCKlnwZvzgYA8JTPwHJChCh choyiny@choyin.local"
+    },
+    {
+      "username": "alacwong",
+      "groups": ["ansible", "wheel"],
+      "ssh_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPyOi5Q2U/DiIOq0NbDLjP6vc5tUG5y57RqVkgKcxNU93oAmFMlyPS9SkYNA8/r4iTy+5Tx/bUGMJdSt7Hut8Eh+ReI5pc6KYit0G9sWoFqPzQqKT0FLw0w07jlckidk30SjDQKHtV3Nw8Y5InFL9HaIt60DCkAcF6vBR8NvQY+Fnb6dUeP6IaQ1KQ2GFIK72LjYUVEAWma/rWpbKaKS/HsSg73s4BKGOWlZXNxr5HoJpLRpCQBkTXa8T2H1j2l8wNRC1W4opvtIBfNTqo6NShbp0r5jamFVcYwmeH7/xU9YI+dylpsxueXWxQORmuYRvqfuEfySpWaeO10HpAX8OiUSw2FTOTjUgw3r1nYnu8I4gh+RGjoi9aQ2OxgFkVZ5yOfbQHNgaJZSrqRcQVv0YVozEqNSDodJBtB8X3cc+X/03NWsBzWRVuiOxq1jhBOmzbvXpHdcldtQMx7V+KFm2xcubRlrAD6EtT1WTM0Gr/aJo19UsBQgV7VZKAdlhjhsk= alacwong"
+    }
+  ]
+}

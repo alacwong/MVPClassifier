@@ -1,0 +1,33 @@
+---
+- name: Disable root login
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '#?PermitRootLogin (yes|no)'
+    replace: 'PermitRootLogin no'
+  become: yes
+- name: Disable password auth login
+  replace:
+    path: /etc/ssh/sshd_config
+    regexp: '#?PasswordAuthentication (yes|no)'
+    replace: 'PasswordAuthentication no'
+  become: yes
+  notify:
+    - Restart SSH
+# ansible group should have passwordless access, should only be accessible to
+- name: Allow 'ansible' group to have passwordless sudo
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%ansible'
+    line: '%ansible ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+- name: Install EPEL repo
+  yum:
+    name: epel-release
+    state: present
+  become: yes
+- name: Install Pip
+  yum:
+    name: python-pip
+    state: present
+  become: yes

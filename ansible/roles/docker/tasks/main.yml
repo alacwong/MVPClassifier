@@ -1,0 +1,108 @@
+---
+- name: Uninstall old versions of Docker
+  yum:
+    name: "{{ item }}"
+    state: removed
+  loop:
+    - docker
+    - docker-client
+    - docker-client-latest
+    - docker-common
+    - docker-latest
+    - docker-latest-logrotate
+    - docker-logrotate
+    - docker-engine
+  when: reinstall
+  become: yes
+
+- name: Install dependencies
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+  become: yes
+
+- name: Add Docker repo
+  command: "yum-config-manager --add-repo {{ docker['repo_url'] }}"
+  become: yes
+
+- name: Install Docker
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - containerd.io
+    - docker-ce
+    - docker-ce-cli
+  become: yes
+
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Check Docker Compose exists
+  stat:
+    path: "/usr/local/bin/docker-compose"
+  register: docker_compose
+
+- name: Download Docker Compose
+  get_url:
+    url: "{{ docker['compose_url'] }}"
+    dest: "/usr/local/bin/docker-compose"
+    mode: "+x"
+  when: docker_compose.stat.exists == False
+  become: yes
+
+- name: Create Compose symlink to /usr/bin
+  file:
+    src: "/usr/local/bin/docker-compose"
+    dest: "/usr/bin/docker-compose"
+    owner: root
+    group: root
+    state: link
+  become: yes
+
+- name: Create Docker folders
+  file:
+    path: "/opt/pickeasy/docker/{{ item }}"
+    owner: root
+    group: docker
+    state: directory
+    mode: 0755
+  loop:
+    - backups
+    - config
+    - log
+  become: yes
+
+- name: Install Docker module for Ansible
+  pip:
+    name: docker
+  become: yes
+
+- name: Deploy test container
+  docker_container:
+    image: hello-world
+    state: started
+    name: hello-world
+    output_logs: yes
+    auto_remove: yes
+  become: yes
+
+- name: Create Docker user group
+  group:
+    name: docker
+
+- name: Add users to docker group
+  user:
+    name: "{{ item }}"
+    groups: docker
+    append: yes
+  loop: "{{ docker.users }}"
+  become: yes
