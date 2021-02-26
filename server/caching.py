@@ -7,4 +7,5 @@ import os
 
 # prod
 # r = Redis(host='redis', port=6379)
+print(os.environ)
 r = redis.from_url(os.environ['REDISCLOUD_URL'])
