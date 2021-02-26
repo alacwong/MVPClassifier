@@ -14,4 +14,5 @@ EXPOSE 5000
 ENTRYPOINT [ "python" ]
 
 CMD [ "app.py" ]
+
 #ENTRYPOINT ["gunicorn","--workers=2", "wsgi:application", "-b", "0.0.0.0:5000"]
