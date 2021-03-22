@@ -9,6 +9,6 @@ import json
 # prod
 # r = Redis(host='redis', port=6379)
 with open('config.json', 'r') as f:
-    uri = json.load(f)['heroku']
+    config = json.load(f)
 
-r = redis.from_url(uri)
+r = redis.StrictRedis(host=config['host'], port=config['port'], password=config['password'])

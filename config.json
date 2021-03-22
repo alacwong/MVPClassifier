@@ -1,4 +1,0 @@
-{
-  "dev":  "redis://localhost:6380/1",
-  "heroku": "redis://:pf393db2cab3cd4d516a5626356c10acc4080dbf414852622cd5856b19bf6bafa@ec2-18-210-118-112.compute-1.amazonaws.com:22459"
-}

@@ -4,3 +4,4 @@
 **/.ipynb_checkpoints/**
 Pipfile
 Pipfile.lock
+config.json
