@@ -9,9 +9,10 @@ from tournament.model import SciKitModel
 
 
 def load_tournament():
-    model = load('data/ml/scikit-perceptron.joblib')
-    players, stats = scrape_players(2021)
-    t = Tournament(players, stats, SciKitModel(engine=model))
-    r.set('tournament', pickle.dumps(t))
-    r.set('root', pickle.dumps(t.simulate()))
-    r.set('time', str(date.today()))
+    if not r.get('tournament'):
+        model = load('data/ml/scikit-perceptron.joblib')
+        players, stats = scrape_players(2021)
+        t = Tournament(players, stats, SciKitModel(engine=model))
+        r.set('tournament', pickle.dumps(t))
+        r.set('root', pickle.dumps(t.simulate()))
+        r.set('time', str(date.today()))
