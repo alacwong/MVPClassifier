@@ -53,7 +53,7 @@ Here are the results
 
 | Season                 | Prediction    | MVP Winner            |
 |:----------------------:|:-------------:| :--------------------:|
-| 2020-2021 (Unfinished) | Nikola Jokić  | Not determined        |
+| 2020-2021 (Unfinished) | Nikola Jokić  | Nikola Jokić          |
 | 2019-2020              | James Harden  | Giannis Antetokounmpo |
 | 2018-2019              | James Harden  | Giannis Antetokounmpo |
 | 2017-2018              | Lebron James  | James Harden          |
